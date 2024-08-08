@@ -1,0 +1,25 @@
+.filter {
+  padding: 12px 16px 16px;
+
+  .wrap {
+    display: flex;
+    justify-content: space-between;
+
+    .form-control,
+    .form-select {
+      width: 30%;
+    }
+  }
+
+  .btn-wrap {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px;
+
+    .btn {
+      width: 30%;
+    }
+  }
+}

@@ -1,0 +1,19 @@
+.video-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding-bottom: 12px;
+  border-bottom: 2px solid #333;
+
+  .source {
+    width: 90%;
+    height: 40vh;
+  }
+
+  .controls {
+    margin: 12px 0 0 0;
+    display: flex;
+    align-items: center;
+  }
+}
