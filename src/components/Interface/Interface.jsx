@@ -1,6 +1,3 @@
-import VideoPlayer from "../VideoPlayer/VideoPlayer";
-import video from "../../assets/video/yên_bình_có_quá_đắt_không.mp4";
-
 import image1 from "../../assets/images/IMG_0301.png";
 import image2 from "../../assets/images/IMG_0201.png";
 import image3 from "../../assets/images/IMG_0268.png";
@@ -31,16 +28,14 @@ function Interface() {
 
   return (
     <>
-      <div className="interface">Feature</div>
-      <div>
-        <VideoPlayer src={video} type="video/mp4" />
-      </div>
+      <div className="interface">Result</div>
       <div className="result">
         {images.map((item, index) => (
           <ImageViewer
             key={index}
             src={item}
-            height="200px"
+            width="280px"
+            height="150px"
             alt="Placeholder Image"
             className="custom-class"
           />
