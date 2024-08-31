@@ -3,54 +3,35 @@ import { useState } from "react";
 import "./Feature.scss";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
-// import { postSearch } from "../../services/postService";
-import axios from "axios";
+import { postSearchQuery } from "../../services/postService";
 
 function Features() {
   const [clip, setClip] = useState("");
   const [ocr, setOcr] = useState("");
   const [asr, setAsr] = useState("");
-  const [dataJson, setDataJson] = useState({});
 
-  const options = [
-    "Object",
-    "One",
-    "Two",
-    "Three",
-    "Four",
-    "Five",
-    "Six",
-    "Seven",
-  ];
-  const [dataFilter, setDataFilter] = useState({
-    object: "",
-    compare: null,
-    number: null,
-  });
+  const handleClip = async () => {
+    let json = JSON.stringify({ clip: clip });
 
-  const handleFindFilter = async () => {
-    const json = JSON.stringify({
-      clip: clip,
-      ocr,
-      asr,
-      object: dataFilter.object,
-    });
-    setDataJson(json);
+    const response = await postSearchQuery(json);
 
-    console.log("JSON >>>>>", dataJson);
+    console.log("Result >>>", response);
+  };
 
-    // const response = await postSearch(dataJson);
+  const handleOcr = async () => {
+    let json = JSON.stringify({ ocr: ocr });
 
-    // console.log("Result >>>", response);
+    const response = await postSearchQuery(json);
 
-    axios
-      .post("http://127.0.0.1:8000/app/search", dataJson)
-      .then((response) => {
-        console.log(response);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    console.log("Result >>>", response);
+  };
+
+  const handleAsr = async () => {
+    let json = JSON.stringify({ asr: asr });
+
+    const response = await postSearchQuery(json);
+
+    console.log("Result >>>", response);
   };
 
   return (
@@ -67,6 +48,9 @@ function Features() {
               onChange={(e) => setClip(e.target.value)}
             />
           </div>
+          <Button variant="primary" onClick={handleClip}>
+            Tìm
+          </Button>
         </div>
         <div className="form">
           <div className="wrap">
@@ -77,6 +61,9 @@ function Features() {
               onChange={(e) => setOcr(e.target.value)}
             />
           </div>
+          <Button variant="primary" onClick={handleOcr}>
+            Tìm
+          </Button>
         </div>
         <div className="form">
           <div className="wrap">
@@ -87,42 +74,7 @@ function Features() {
               onChange={(e) => setAsr(e.target.value)}
             />
           </div>
-        </div>
-      </div>
-
-      <div className="filter">
-        <h2>Filter</h2>
-        <div className="wrap">
-          <Form.Select
-            onChange={(e) =>
-              setDataFilter({ ...dataFilter, object: e.target.value })
-            }
-          >
-            {options.map((item, index) => (
-              <option key={index} value={item}>
-                {item}
-              </option>
-            ))}
-          </Form.Select>
-          <Form.Select
-            onChange={(e) =>
-              setDataFilter({ ...dataFilter, compare: e.target.value })
-            }
-          >
-            <option>Compare</option>
-            <option value="<">&lt;</option>
-            <option value="=">=</option>
-            <option value=">">&gt;</option>
-          </Form.Select>
-          <Form.Control
-            type="number"
-            onChange={(e) =>
-              setDataFilter({ ...dataFilter, number: e.target.value })
-            }
-          />
-        </div>
-        <div className="btn-wrap">
-          <Button variant="primary" onClick={handleFindFilter}>
+          <Button variant="primary" onClick={handleAsr}>
             Tìm
           </Button>
         </div>
