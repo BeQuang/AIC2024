@@ -5,7 +5,8 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { postSearchQuery } from "../../services/postService";
 
-function Features() {
+// eslint-disable-next-line react/prop-types
+function Features({ setResponse }) {
   const [clip, setClip] = useState("");
   const [ocr, setOcr] = useState("");
   const [asr, setAsr] = useState("");
@@ -16,6 +17,7 @@ function Features() {
     const response = await postSearchQuery(json);
 
     console.log("Result >>>", response);
+    setResponse(response);
   };
 
   const handleOcr = async () => {
@@ -24,6 +26,7 @@ function Features() {
     const response = await postSearchQuery(json);
 
     console.log("Result >>>", response);
+    setResponse(response);
   };
 
   const handleAsr = async () => {
@@ -32,6 +35,7 @@ function Features() {
     const response = await postSearchQuery(json);
 
     console.log("Result >>>", response);
+    setResponse(response);
   };
 
   return (

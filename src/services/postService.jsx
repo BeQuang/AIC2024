@@ -6,7 +6,7 @@ const postSearchQuery = (data) => {
 
 const postSearchFilterObj = (data, operator, value) => {
   console.log(operator, value);
-  return axios.post(`?top=10&operator=${operator}&value=${value}`, data);
+  return axios.post(`?operator=${operator}&value=${value}`, data);
 };
 
 export { postSearchQuery, postSearchFilterObj };
