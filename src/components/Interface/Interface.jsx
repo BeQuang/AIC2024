@@ -13,9 +13,14 @@ function Interface({ response }) {
 
   const handleClipLogic = (data) => {
     // Logic xử lý cho clip
-    return data.slice(0, 50).map((item, i) => (
+    return data.map((item, i) => (
       <div key={i}>
-        <ImageViewer src={item.image_path} width="100px" height="100px" />
+        <ImageViewer src={item.image_path} width="300px" height="160px" />
+        <div>
+          <div>Frame: {item.frame_id}</div>
+          <div>Folder: {item.video_folder}</div>
+          <div>Video: {item.video_id}</div>
+        </div>
       </div>
     ));
   };
@@ -33,7 +38,7 @@ function Interface({ response }) {
   const handleOcrLogic = (data) => {
     // Logic xử lý cho ocr
     return data.map((item, i) => (
-      <div key={i}>
+      <div className="info" key={i}>
         <div>Frame: {item._source.frame}</div>
         <div>Video_ID: {item._source.video_name}</div>
         <div>Text: {item._source.text.map((character) => `${character} `)}</div>

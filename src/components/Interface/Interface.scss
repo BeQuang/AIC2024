@@ -1,16 +1,26 @@
-.interface {
-  font-size: 24px;
-  text-align: center;
-  padding: 12px;
-  font-weight: 700;
-  border-bottom: 2px solid #333;
-}
+.interface-main {
+  padding-left: 18%;
 
-.result {
-  display: flex;
-  flex-wrap: wrap;
+  .interface {
+    font-size: 24px;
+    text-align: center;
+    padding: 12px;
+    font-weight: 700;
+    border-bottom: 2px solid #333;
+  }
 
-  .custom-class {
-    padding: 8px;
+  .result {
+    display: flex;
+    flex-wrap: wrap;
+    font-size: 20px;
+
+    .custom-class {
+      padding: 8px;
+    }
+
+    .info {
+      padding-bottom: 12px;
+      width: 100%;
+    }
   }
 }
