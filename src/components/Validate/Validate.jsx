@@ -44,10 +44,10 @@ function checkUrl(
   day,
   month,
   year,
-  top = null,
+  // top = null,
   operator = null,
   value = null,
-  object_as_filter = true
+  object_as_filter = null
 ) {
   let link = "";
   const params = [];
@@ -64,9 +64,9 @@ function checkUrl(
     params.push(`publish_year=${year}`);
   }
 
-  if (checkPositiveInteger(top)) {
-    params.push(`top=${top}`);
-  }
+  // if (checkPositiveInteger(top)) {
+  //   params.push(`top=${top}`);
+  // }
 
   if (checkOperator(operator)) {
     params.push(`operator=${operator}`);
@@ -76,8 +76,9 @@ function checkUrl(
     params.push(`value=${value}`);
   }
 
-  // object_as_filter mặc định là true, không cần kiểm tra giá trị
-  params.push(`object_as_filter=${object_as_filter}`);
+  if (object_as_filter === "true" || object_as_filter === "false") {
+    params.push(`object_as_filter=${object_as_filter}`);
+  }
 
   if (params.length > 0) {
     link = "?" + params.join("&");

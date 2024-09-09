@@ -31,17 +31,40 @@ function Interface({ response }) {
   };
 
   const handleObjectLogic = (data) => {
+    console.log(data);
     // Logic xử lý cho object
-    return <div>Object Logic</div>;
+    return data.map((item, i) => (
+      <div key={i}>
+        <ImageViewer
+          src={item._source.image_path}
+          width="300px"
+          height="160px"
+        />
+        <div>
+          <div>Frame: {item._source.frame_id}</div>
+          <div>Folder: {item._source.video_folder}</div>
+          <div>Video: {item._source.video_id}</div>
+        </div>
+      </div>
+    ));
   };
 
   const handleOcrLogic = (data) => {
     // Logic xử lý cho ocr
     return data.map((item, i) => (
       <div className="info" key={i}>
-        <div>Frame: {item._source.frame}</div>
-        <div>Video_ID: {item._source.video_name}</div>
-        <div>Text: {item._source.text.map((character) => `${character} `)}</div>
+        <ImageViewer
+          src={item._source.image_path}
+          width="300px"
+          height="160px"
+        />
+        <div>
+          <div>Frame: {item._source.frame}</div>
+          <div>Video_ID: {item._source.video_name}</div>
+          <div>
+            Text: {item._source.text.map((character) => `${character} `)}
+          </div>
+        </div>
       </div>
     ));
   };

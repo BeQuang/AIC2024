@@ -5,16 +5,17 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { postSearchFilterObj } from "../../services/postService";
 
-function Filter() {
+// eslint-disable-next-line react/prop-types
+function Filter({ setResponse }) {
   const options = [
     "Object",
     "person",
-    "Two",
-    "Three",
-    "Four",
-    "Five",
-    "Six",
-    "Seven",
+    "bottle",
+    "chair",
+    "laptop",
+    "tie",
+    "tv",
+    "wine glass",
   ];
 
   const [dataFilter, setDataFilter] = useState({
@@ -32,19 +33,19 @@ function Filter() {
   const handleObj = async () => {
     let json = JSON.stringify({ object: dataFilter.object });
 
-    console.log(json, dataFilter.compare, dataFilter.number);
-
     const response = await postSearchFilterObj(
       json,
-      dataFilter.compare,
-      dataFilter.number,
       dataTime.day,
       dataTime.month,
       dataTime.year,
+      // 10,
+      dataFilter.compare,
+      dataFilter.number,
       objectAsFilter
     );
 
     console.log("Result >>>", response);
+    setResponse(response);
   };
 
   return (
@@ -69,9 +70,12 @@ function Filter() {
             }
           >
             <option>Compare</option>
-            <option value="gte">&lt;</option>
-            <option value="=">=</option>
+            <option value="gte">&gt;=</option>
+            <option value="lte">&lt;=</option>
+            <option value="eq">===</option>
+            <option value="ne">!==</option>
             <option value=">">&gt;</option>
+            <option value="<">&lt;</option>
           </Form.Select>
           <Form.Control
             type="number"

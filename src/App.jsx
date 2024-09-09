@@ -18,7 +18,7 @@ function App() {
       <div className="app-container">
         <div className="feature-main">
           <Features setResponse={setResponse} />
-          <Filter />
+          <Filter setResponse={setResponse} />
         </div>
         <div className="interface-main">
           <Interface response={response} />
