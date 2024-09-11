@@ -31,6 +31,14 @@ npm install
 
 ### Step 3: Extract Elasticsearch zip and run Docker
 
+Before running Docker, make sure to update the path in the Docker configuration file. Specifically, you need to modify the "device" path for "data" to match the "backup" path. For example:
+
+```bash
+D:/Workspace/AIC2024/elasticsearch/data
+```
+
+Replace this with the corresponding path on your machine.
+
 Extract the elasticsearch.zip file and run the Docker container inside the extracted folder:
 
 - Unzip the elasticsearch.zip file.

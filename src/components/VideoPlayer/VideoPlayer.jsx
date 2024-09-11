@@ -1,96 +1,54 @@
-import { useRef, useState, useEffect } from "react";
-import "./VideoPlayer.scss";
+import Button from "react-bootstrap/Button";
+import Modal from "react-bootstrap/Modal";
 
+// Hàm để chuyển đổi giây thành định dạng giờ:phút:giây
 const formatTime = (seconds) => {
-  const minutes = Math.floor(seconds / 60);
-  const remainingSeconds = Math.floor(seconds % 60);
-  return `${minutes}:${remainingSeconds < 10 ? "0" : ""}${remainingSeconds}`;
+  const hours = Math.floor(seconds / 3600);
+  const minutes = Math.floor((seconds % 3600) / 60);
+  const secs = Math.floor(seconds % 60);
+
+  return `${hours.toString().padStart(2, "0")}:${minutes
+    .toString()
+    .padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
 };
 
 // eslint-disable-next-line react/prop-types
-const VideoPlayer = ({ src, type }) => {
-  const videoRef = useRef(null);
-  const [currentTime, setCurrentTime] = useState(0);
-  const [duration, setDuration] = useState(0);
-  const [hoverTime, setHoverTime] = useState(null);
-  const [tooltipPosition, setTooltipPosition] = useState(0);
+function VideoPlayer({ show, setShow, videoPath, timeImageCurrent }) {
+  const handleClose = () => setShow(false);
 
-  useEffect(() => {
-    const video = videoRef.current;
-    const updateTime = () => {
-      setCurrentTime(video.currentTime);
-    };
-
-    video.addEventListener("timeupdate", updateTime);
-    video.addEventListener("loadedmetadata", () => {
-      setDuration(video.duration);
-    });
-
-    return () => {
-      video.removeEventListener("timeupdate", updateTime);
-    };
-  }, []);
-
-  const handlePlay = () => {
-    videoRef.current.play();
-  };
-
-  const handlePause = () => {
-    videoRef.current.pause();
-  };
-
-  const handleRewind = () => {
-    videoRef.current.currentTime -= 5;
-  };
-
-  const handleFastForward = () => {
-    videoRef.current.currentTime += 5;
-  };
-
-  const handleTimeChange = (event) => {
-    videoRef.current.currentTime = event.target.value;
-    setCurrentTime(event.target.value);
-  };
-
-  const handleMouseMove = (event) => {
-    const seekBar = event.target;
-    const rect = seekBar.getBoundingClientRect();
-    const x = event.clientX - rect.left;
-    const time = (x / seekBar.offsetWidth) * duration;
-    setHoverTime(time);
-    setTooltipPosition(x);
-  };
+  // Chuyển đổi thời gian hiện tại
+  const formattedTime = formatTime(timeImageCurrent);
 
   return (
-    <div className="video-container">
-      <video ref={videoRef} className="source">
-        <source src={src} type={type} />
-        Trình duyệt của bạn không hỗ trợ thẻ video.
-      </video>
-      <div className="controls">
-        <button onClick={handleRewind}>Rewind 5s</button>
-        <button onClick={handlePlay}>Play</button>
-        <button onClick={handlePause}>Pause</button>
-        <button onClick={handleFastForward}>Forward 5s</button>
-        <div className="seek-bar">
-          <div className="tooltip" style={{ left: `${tooltipPosition}px` }}>
-            {hoverTime && formatTime(hoverTime)}
-          </div>
-          <input
-            type="range"
-            min="0"
-            max={duration}
-            value={currentTime}
-            onChange={handleTimeChange}
-            onMouseMove={handleMouseMove}
-          />
-        </div>
-        <div className="time-display">
-          {formatTime(currentTime)} / {formatTime(duration)}
-        </div>
-      </div>
-    </div>
+    <>
+      <Modal show={show} onHide={handleClose} size="lg" centered>
+        <Modal.Header closeButton>
+          <Modal.Title>
+            Video Player {timeImageCurrent > 0 && ` - ${formattedTime}`}
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          {videoPath ? (
+            <iframe
+              src={videoPath}
+              width="100%"
+              height="400px"
+              allow="autoplay; encrypted-media"
+              allowFullScreen
+              title="Video Player"
+            />
+          ) : (
+            <p>No video available</p>
+          )}
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    </>
   );
-};
+}
 
 export default VideoPlayer;

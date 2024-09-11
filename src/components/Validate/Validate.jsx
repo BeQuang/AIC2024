@@ -47,7 +47,7 @@ function checkUrl(
   // top = null,
   operator = null,
   value = null,
-  object_as_filter = null
+  object_as_filter = "false"
 ) {
   let link = "";
   const params = [];
