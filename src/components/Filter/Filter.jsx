@@ -6,7 +6,7 @@ import Button from "react-bootstrap/Button";
 import { postSearchFilterObj } from "../../services/postService";
 
 // eslint-disable-next-line react/prop-types
-function Filter({ setResponse }) {
+function Filter({ setResponse, setIsSimilarImage }) {
   const options = [
     "Object",
     "person",
@@ -46,6 +46,7 @@ function Filter({ setResponse }) {
 
     console.log("Result >>>", response);
     setResponse(response);
+    setIsSimilarImage(false);
   };
 
   return (

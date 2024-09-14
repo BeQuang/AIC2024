@@ -12,16 +12,27 @@ function App() {
     object: [],
     ocr: [],
   });
+  const [isSimilarImage, setIsSimilarImage] = useState(false);
 
   return (
     <>
       <div className="app-container">
         <div className="feature-main">
-          <Features setResponse={setResponse} />
-          <Filter setResponse={setResponse} />
+          <Features
+            setResponse={setResponse}
+            setIsSimilarImage={setIsSimilarImage}
+          />
+          <Filter
+            setResponse={setResponse}
+            setIsSimilarImage={setIsSimilarImage}
+          />
         </div>
         <div className="interface-main">
-          <Interface response={response} />
+          <Interface
+            response={response}
+            isSimilarImage={isSimilarImage}
+            setIsSimilarImage={setIsSimilarImage}
+          />
         </div>
       </div>
     </>

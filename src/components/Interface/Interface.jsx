@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useState, useEffect } from "react";
 import ImageViewer from "../ImageViewer/ImageViewer";
 import "./Interface.scss";
@@ -5,7 +6,7 @@ import VideoPlayer from "../VideoPlayer/VideoPlayer";
 import { postSimilarImage } from "../../services/postService";
 
 // eslint-disable-next-line react/prop-types
-function Interface({ response }) {
+function Interface({ response, isSimilarImage, setIsSimilarImage }) {
   const { asr, clip, image, object, ocr } = response || {};
   const [videoCurrent, setVideoCurrent] = useState("");
   const [show, setShow] = useState(false);
@@ -13,15 +14,21 @@ function Interface({ response }) {
   const [similarImage, setSimilarImage] = useState(null);
   const [loading, setLoading] = useState(false);
 
+  useEffect(() => {
+    if (!isSimilarImage) {
+      setSimilarImage(null);
+    }
+  }, [isSimilarImage]);
+
   const handleShowVideo = (video_id, frame_id, fps) => {
     setVideoCurrent(video_id);
     setShow(true);
     setTimeImageCurrent(frame_id / fps);
-    setSimilarImage(null);
   };
 
   const handleShowSimilarImage = async (image_path) => {
     setLoading(true);
+    setIsSimilarImage(true);
     try {
       const response = await postSimilarImage(image_path);
       setSimilarImage(response);
@@ -130,7 +137,7 @@ function Interface({ response }) {
             <div>Folder: {item.video_folder}</div>
             <div>Video: {item.video_id}</div>
           </div>
-          <div className="d-flex align-items-end pb-2">
+          <div className="d-flex flex-column justify-content-around pb-2">
             <button
               className="btn btn-primary"
               onClick={() =>
@@ -143,6 +150,12 @@ function Interface({ response }) {
               }
             >
               Video
+            </button>
+            <button
+              className="btn btn-primary"
+              onClick={() => handleShowSimilarImage(item.image_path)}
+            >
+              Similar Image
             </button>
           </div>
         </div>

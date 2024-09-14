@@ -6,7 +6,7 @@ import Button from "react-bootstrap/Button";
 import { postSearchQuery } from "../../services/postService";
 
 // eslint-disable-next-line react/prop-types
-function Features({ setResponse }) {
+function Features({ setResponse, setIsSimilarImage }) {
   const [clip, setClip] = useState("");
   const [ocr, setOcr] = useState("");
   const [asr, setAsr] = useState("");
@@ -26,8 +26,9 @@ function Features({ setResponse }) {
       dataTime.year
     );
 
-    console.log("Result >>>", response);
     setResponse(response);
+    setIsSimilarImage(false);
+    console.log("Result >>>", response);
   };
 
   const handleOcr = async () => {
@@ -42,6 +43,7 @@ function Features({ setResponse }) {
 
     console.log("Result >>>", response);
     setResponse(response);
+    setIsSimilarImage(false);
   };
 
   const handleAsr = async () => {
@@ -56,6 +58,7 @@ function Features({ setResponse }) {
 
     console.log("Result >>>", response);
     setResponse(response);
+    setIsSimilarImage(false);
   };
 
   return (
