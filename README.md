@@ -54,12 +54,12 @@ docker-compose up -d
 
 If you encounter an error with exit code 78 when running Docker, follow the solution in this [StackOverflow thread](https://stackoverflow.com/questions/56937171/efk-elasticsearch-1-exited-with-code-78-when-install-elasticsearch) to resolve the issue.
 
-### Step 4: Extract the videos.zip file
+### Step 4: Set up the video file structure according to the required format.
 
-Extract the videos.zip file located in the src/assets/ folder. After extracting, ensure the videos are saved inside the src/assets/videos/ folder:
+Download the video dataset to your machine [Drive](https://drive.google.com/file/d/1-HZEpOnVWgpYiTmog-KAZ9Hxa8Ra-gMv/view?fbclid=IwY2xjawFSEmFleHRuA2FlbQIxMQABHSaKA9xGBhwN9lxzxRyoSAojxKHeJk7L5pFe49BM0ng8hCsryqvi1VA1mQ_aem_qep-WTJZoa3Fk5JNSRKGzg), then extract and set it up according to the following structure:
 
 ```bash
-src/assets/videos/
+src/assets/videos/Video_L01/....
 ```
 
 ### Note:
