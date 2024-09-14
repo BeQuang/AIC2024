@@ -54,7 +54,19 @@ docker-compose up -d
 
 If you encounter an error with exit code 78 when running Docker, follow the solution in this [StackOverflow thread](https://stackoverflow.com/questions/56937171/efk-elasticsearch-1-exited-with-code-78-when-install-elasticsearch) to resolve the issue.
 
-### Step 4: Start the frontend
+### Step 4: Extract the videos.zip file
+
+Extract the videos.zip file located in the src/assets/ folder. After extracting, ensure the videos are saved inside the src/assets/videos/ folder:
+
+```bash
+src/assets/videos/
+```
+
+### Note:
+
+Ensure that your hard drive has at least 20GB of free space before extracting the video files.
+
+### Step 5: Start the frontend
 
 After the setup is complete, start the frontend development server with:
 

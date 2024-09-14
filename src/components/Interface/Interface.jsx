@@ -1,8 +1,8 @@
-/* eslint-disable react/prop-types */
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import ImageViewer from "../ImageViewer/ImageViewer";
 import "./Interface.scss";
 import VideoPlayer from "../VideoPlayer/VideoPlayer";
+import { postSimilarImage } from "../../services/postService";
 
 // eslint-disable-next-line react/prop-types
 function Interface({ response }) {
@@ -10,12 +10,26 @@ function Interface({ response }) {
   const [videoCurrent, setVideoCurrent] = useState("");
   const [show, setShow] = useState(false);
   const [timeImageCurrent, setTimeImageCurrent] = useState(0);
+  const [similarImage, setSimilarImage] = useState(null);
+  const [loading, setLoading] = useState(false);
 
-  const handleShowVideo = (video_path, frame_id, fps) => {
-    setVideoCurrent(video_path);
+  const handleShowVideo = (video_id, frame_id, fps) => {
+    setVideoCurrent(video_id);
     setShow(true);
     setTimeImageCurrent(frame_id / fps);
-    console.log(video_path);
+    setSimilarImage(null);
+  };
+
+  const handleShowSimilarImage = async (image_path) => {
+    setLoading(true);
+    try {
+      const response = await postSimilarImage(image_path);
+      setSimilarImage(response);
+    } catch (error) {
+      console.error("Failed to fetch similar images:", error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleAsrLogic = (data) => {
@@ -34,14 +48,25 @@ function Interface({ response }) {
             <div>Folder: {item.video_folder}</div>
             <div>Video: {item.video_id}</div>
           </div>
-          <div className="d-flex align-items-end pb-2">
+          <div className="d-flex flex-column justify-content-around pb-2">
             <button
               className="btn btn-primary"
               onClick={() =>
-                handleShowVideo(item.video_path, item.frame_id, item.fps)
+                handleShowVideo(
+                  item.video_id,
+                  item.frame_id,
+                  item.fps,
+                  item.image_path
+                )
               }
             >
               Video
+            </button>
+            <button
+              className="btn btn-primary"
+              onClick={() => handleShowSimilarImage(item.image_path)}
+            >
+              Similar Image
             </button>
           </div>
         </div>
@@ -49,9 +74,48 @@ function Interface({ response }) {
     ));
   };
 
-  const handleImageLogic = (data) => {
-    // Logic xử lý cho image
-    return <div>Image Logic</div>;
+  const handleImageLogic = () => {
+    console.log(similarImage);
+    if (
+      similarImage &&
+      similarImage.similar_images &&
+      similarImage.similar_images.length > 0
+    ) {
+      return similarImage.similar_images.map((item, i) => (
+        <div key={i}>
+          <ImageViewer src={item.image_path} width="300px" height="160px" />
+          <div className="d-flex justify-content-evenly">
+            <div>
+              <div>Frame: {item.frame_id}</div>
+              <div>Folder: {item.video_folder}</div>
+              <div>Video: {item.video_id}</div>
+            </div>
+            <div className="d-flex flex-column justify-content-around pb-2">
+              <button
+                className="btn btn-primary"
+                onClick={() =>
+                  handleShowVideo(
+                    item.video_id,
+                    item.frame_id,
+                    item.fps,
+                    item.image_path
+                  )
+                }
+              >
+                Video
+              </button>
+              <button
+                className="btn btn-primary"
+                onClick={() => handleShowSimilarImage(item.image_path)}
+              >
+                Similar Image
+              </button>
+            </div>
+          </div>
+        </div>
+      ));
+    }
+    return <div>No similar images found.</div>;
   };
 
   const handleObjectLogic = (data) => {
@@ -59,15 +123,28 @@ function Interface({ response }) {
     // Logic xử lý cho object
     return data.map((item, i) => (
       <div key={i}>
-        <ImageViewer
-          src={item._source.image_path}
-          width="300px"
-          height="160px"
-        />
-        <div>
-          <div>Frame: {item._source.frame_id}</div>
-          <div>Folder: {item._source.video_folder}</div>
-          <div>Video: {item._source.video_id}</div>
+        <ImageViewer src={item.image_path} width="300px" height="160px" />
+        <div className="d-flex justify-content-evenly">
+          <div>
+            <div>Frame: {item.frame_id}</div>
+            <div>Folder: {item.video_folder}</div>
+            <div>Video: {item.video_id}</div>
+          </div>
+          <div className="d-flex align-items-end pb-2">
+            <button
+              className="btn btn-primary"
+              onClick={() =>
+                handleShowVideo(
+                  item.video_id,
+                  item.frame_id,
+                  item.fps,
+                  item.image_path
+                )
+              }
+            >
+              Video
+            </button>
+          </div>
         </div>
       </div>
     ));
@@ -93,21 +170,32 @@ function Interface({ response }) {
     ));
   };
 
+  // Check if similarImage is not empty
+  const hasSimilarImage =
+    similarImage &&
+    similarImage.similar_images &&
+    similarImage.similar_images.length > 0;
+
   return (
     <>
       <div className="interface">Result</div>
       <div className="result">
-        {asr?.length > 0 && handleAsrLogic(asr)}
-        {clip?.length > 0 && handleClipLogic(clip)}
-        {image?.length > 0 && handleImageLogic(image)}
-        {object?.length > 0 && handleObjectLogic(object)}
-        {ocr?.length > 0 && handleOcrLogic(ocr)}
+        {hasSimilarImage ? (
+          handleImageLogic()
+        ) : (
+          <>
+            {asr?.length > 0 && handleAsrLogic(asr)}
+            {clip?.length > 0 && handleClipLogic(clip)}
+            {object?.length > 0 && handleObjectLogic(object)}
+            {ocr?.length > 0 && handleOcrLogic(ocr)}
+          </>
+        )}
       </div>
       {/* Truyền videoCurrent và trạng thái show vào VideoPlayer */}
       <VideoPlayer
         show={show}
         setShow={setShow}
-        videoPath={videoCurrent}
+        videoID={videoCurrent}
         timeImageCurrent={timeImageCurrent}
       />
     </>

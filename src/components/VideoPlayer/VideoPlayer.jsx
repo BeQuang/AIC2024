@@ -1,5 +1,8 @@
+/* eslint-disable react/prop-types */
+import { useEffect, useRef } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
+import VideoFull from "../../components/VideoExport/VideoExport.jsx";
 
 // Hàm để chuyển đổi giây thành định dạng giờ:phút:giây
 const formatTime = (seconds) => {
@@ -12,12 +15,33 @@ const formatTime = (seconds) => {
     .padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
 };
 
-// eslint-disable-next-line react/prop-types
-function VideoPlayer({ show, setShow, videoPath, timeImageCurrent }) {
+function findVideoByTitle(title) {
+  return VideoFull.find((video) => video.title === title);
+}
+
+function VideoPlayer({ show, setShow, videoID, timeImageCurrent }) {
+  const videoRef = useRef(null); // Tạo ref cho video
+
   const handleClose = () => setShow(false);
 
   // Chuyển đổi thời gian hiện tại
   const formattedTime = formatTime(timeImageCurrent);
+  const VideoCurrent = findVideoByTitle(`Video ${videoID}`);
+
+  // Sử dụng useEffect để thiết lập thời gian bắt đầu
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.currentTime = timeImageCurrent;
+    }
+  }, [videoID, timeImageCurrent]); // Chạy lại khi videoID hoặc timeImageCurrent thay đổi
+
+  // Hàm tua nhanh/chậm
+  const handleSeek = (seconds) => {
+    if (videoRef.current) {
+      const newTime = videoRef.current.currentTime + seconds;
+      videoRef.current.currentTime = newTime > 0 ? newTime : 0; // Đảm bảo không tua về trước 0 giây
+    }
+  };
 
   return (
     <>
@@ -28,15 +52,33 @@ function VideoPlayer({ show, setShow, videoPath, timeImageCurrent }) {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          {videoPath ? (
-            <iframe
-              src={videoPath}
-              width="100%"
-              height="400px"
-              allow="autoplay; encrypted-media"
-              allowFullScreen
-              title="Video Player"
-            />
+          {videoID ? (
+            <>
+              <video
+                ref={videoRef}
+                controls
+                style={{ width: "90%", height: "80%" }}
+              >
+                <source src={VideoCurrent.src} type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
+              {/* Các nút điều khiển tua nhanh/chậm */}
+              <div style={{ marginTop: "10px", textAlign: "center" }}>
+                <Button
+                  variant="primary"
+                  onClick={() => handleSeek(-5)} // Tua lại 5 giây
+                  style={{ marginRight: "10px" }}
+                >
+                  Tua lại 5s
+                </Button>
+                <Button
+                  variant="primary"
+                  onClick={() => handleSeek(5)} // Tua nhanh 5 giây
+                >
+                  Tua nhanh 5s
+                </Button>
+              </div>
+            </>
           ) : (
             <p>No video available</p>
           )}
