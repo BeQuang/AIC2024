@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import VideoFull from "../../components/VideoExport/VideoExport.jsx";
@@ -19,14 +19,23 @@ function findVideoByTitle(title) {
   return VideoFull.find((video) => video.title === title);
 }
 
-function VideoPlayer({ show, setShow, videoID, timeImageCurrent }) {
+function VideoPlayer({ show, setShow, videoID, timeImageCurrent, fpsCurrent }) {
   const videoRef = useRef(null); // Tạo ref cho video
+  const [currentTime, setCurrentTime] = useState(timeImageCurrent); // State lưu trữ thời gian hiện tại
+  const [currentFrame, setCurrentFrame] = useState(0); // State lưu trữ frame hiện tại
 
   const handleClose = () => setShow(false);
 
-  // Chuyển đổi thời gian hiện tại
-  const formattedTime = formatTime(timeImageCurrent);
   const VideoCurrent = findVideoByTitle(`Video ${videoID}`);
+
+  // Cập nhật thời gian và frame khi video chạy
+  const handleTimeUpdate = () => {
+    if (videoRef.current) {
+      const newTime = videoRef.current.currentTime;
+      setCurrentTime(newTime);
+      setCurrentFrame(Math.floor(newTime * fpsCurrent));
+    }
+  };
 
   // Sử dụng useEffect để thiết lập thời gian bắt đầu
   useEffect(() => {
@@ -48,7 +57,9 @@ function VideoPlayer({ show, setShow, videoID, timeImageCurrent }) {
       <Modal show={show} onHide={handleClose} size="lg" centered>
         <Modal.Header closeButton>
           <Modal.Title>
-            Video Player {timeImageCurrent > 0 && ` - ${formattedTime}`}
+            Video Player
+            {currentTime > 0 &&
+              ` - ${formatTime(currentTime)} (Frame: ${currentFrame})`}
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -58,6 +69,7 @@ function VideoPlayer({ show, setShow, videoID, timeImageCurrent }) {
                 ref={videoRef}
                 controls
                 style={{ width: "90%", height: "80%" }}
+                onTimeUpdate={handleTimeUpdate} // Lắng nghe sự kiện timeupdate
               >
                 <source src={VideoCurrent.src} type="video/mp4" />
                 Your browser does not support the video tag.

@@ -13,6 +13,7 @@ function Interface({ response, isSimilarImage, setIsSimilarImage }) {
   const [timeImageCurrent, setTimeImageCurrent] = useState(0);
   const [similarImage, setSimilarImage] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [fpsCurrent, setFpsCurrent] = useState(0);
 
   useEffect(() => {
     if (!isSimilarImage) {
@@ -24,6 +25,7 @@ function Interface({ response, isSimilarImage, setIsSimilarImage }) {
     setVideoCurrent(video_id);
     setShow(true);
     setTimeImageCurrent(frame_id / fps);
+    setFpsCurrent(fps);
   };
 
   const handleShowSimilarImage = async (image_path) => {
@@ -210,6 +212,7 @@ function Interface({ response, isSimilarImage, setIsSimilarImage }) {
         setShow={setShow}
         videoID={videoCurrent}
         timeImageCurrent={timeImageCurrent}
+        fpsCurrent={fpsCurrent}
       />
     </>
   );
