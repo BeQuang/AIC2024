@@ -59,7 +59,7 @@ If you encounter an error with exit code 78 when running Docker, follow the solu
 Download the video dataset to your machine [Drive](https://drive.google.com/file/d/1-HZEpOnVWgpYiTmog-KAZ9Hxa8Ra-gMv/view?fbclid=IwY2xjawFSEmFleHRuA2FlbQIxMQABHSaKA9xGBhwN9lxzxRyoSAojxKHeJk7L5pFe49BM0ng8hCsryqvi1VA1mQ_aem_qep-WTJZoa3Fk5JNSRKGzg), then extract and set it up according to the following structure:
 
 ```bash
-src/assets/videos/Video_L01/....
+src/assets/videos/Videos_L01/....
 ```
 
 ### Note:

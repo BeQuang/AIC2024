@@ -23,5 +23,6 @@ dist-ssr
 *.sln
 *.sw?
 
-#File video
+#File video and image
 src/assets/videos/
+public/assets/images/
