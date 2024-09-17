@@ -54,17 +54,21 @@ docker-compose up -d
 
 If you encounter an error with exit code 78 when running Docker, follow the solution in this [StackOverflow thread](https://stackoverflow.com/questions/56937171/efk-elasticsearch-1-exited-with-code-78-when-install-elasticsearch) to resolve the issue.
 
-### Step 4: Set up the video file structure according to the required format.
+### Step 4: Set up the video and image file structure according to the required format.
 
-Download the video dataset to your machine [Drive](https://drive.google.com/file/d/1-HZEpOnVWgpYiTmog-KAZ9Hxa8Ra-gMv/view?fbclid=IwY2xjawFSEmFleHRuA2FlbQIxMQABHSaKA9xGBhwN9lxzxRyoSAojxKHeJk7L5pFe49BM0ng8hCsryqvi1VA1mQ_aem_qep-WTJZoa3Fk5JNSRKGzg), then extract and set it up according to the following structure:
+Download the video dataset and image dataset to your machine [Drive](https://drive.google.com/file/d/1-HZEpOnVWgpYiTmog-KAZ9Hxa8Ra-gMv/view?fbclid=IwY2xjawFSEmFleHRuA2FlbQIxMQABHSaKA9xGBhwN9lxzxRyoSAojxKHeJk7L5pFe49BM0ng8hCsryqvi1VA1mQ_aem_qep-WTJZoa3Fk5JNSRKGzg), then extract and set it up according to the following structure:
 
 ```bash
-src/assets/videos/Videos_L01/....
+src/assets/videos/Videos_L01/L01_V001.mp4
+```
+
+```bash
+public/assets/images/Videos_L01/L01_V001/L01_V001_0.jpg
 ```
 
 ### Note:
 
-Ensure that your hard drive has at least 20GB of free space before extracting the video files.
+Ensure that your hard drive has at least 40GB of free space before extracting the video files. The public folder is at the same level as the src folder.
 
 ### Step 5: Start the frontend
 
