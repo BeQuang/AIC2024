@@ -4,6 +4,7 @@ import "./Feature.scss";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { postSearchQuery } from "../../services/postService";
+import FormDate from "../FormatForm/FormDate";
 
 // eslint-disable-next-line react/prop-types
 function Features({ setResponse, setIsSimilarImage }) {
@@ -31,6 +32,12 @@ function Features({ setResponse, setIsSimilarImage }) {
     console.log("Result >>>", response);
   };
 
+  const handleKeyDownClip = (e) => {
+    if (e.key === "Enter" || e.keyCode === 13) {
+      handleClip();
+    }
+  };
+
   const handleOcr = async () => {
     let json = JSON.stringify({ ocr: ocr });
 
@@ -44,6 +51,12 @@ function Features({ setResponse, setIsSimilarImage }) {
     console.log("Result >>>", response);
     setResponse(response);
     setIsSimilarImage(false);
+  };
+
+  const handleKeyDownOcr = (e) => {
+    if (e.key === "Enter" || e.keyCode === 13) {
+      handleOcr();
+    }
   };
 
   const handleAsr = async () => {
@@ -61,6 +74,12 @@ function Features({ setResponse, setIsSimilarImage }) {
     setIsSimilarImage(false);
   };
 
+  const handleKeyDownAsr = (e) => {
+    if (e.key === "Enter" || e.keyCode === 13) {
+      handleAsr();
+    }
+  };
+
   return (
     <>
       <div className="feature-title">Feature</div>
@@ -73,6 +92,7 @@ function Features({ setResponse, setIsSimilarImage }) {
               type="text"
               id="CLIP"
               onChange={(e) => setClip(e.target.value)}
+              onKeyDown={handleKeyDownClip}
             />
           </div>
           <Button variant="primary" onClick={handleClip}>
@@ -86,9 +106,11 @@ function Features({ setResponse, setIsSimilarImage }) {
               type="text"
               id="OCR"
               onChange={(e) => setOcr(e.target.value)}
+              onKeyDown={handleKeyDownOcr}
             />
           </div>
-          <Button variant="primary" onClick={handleOcr}>
+          <Button variant="primary" onClick={handleOcr} onKeyDown={handleOcr}>
+            {" "}
             Tìm
           </Button>
         </div>
@@ -99,45 +121,16 @@ function Features({ setResponse, setIsSimilarImage }) {
               type="text"
               id="ASR"
               onChange={(e) => setAsr(e.target.value)}
+              onKeyDown={handleKeyDownAsr}
             />
           </div>
-          <Button variant="primary" onClick={handleAsr}>
+          <Button variant="primary" onClick={handleAsr} onKeyDown={handleAsr}>
+            {" "}
             Tìm
           </Button>
         </div>
 
-        <div className="form">
-          <div className="wrap time-item">
-            <Form.Label htmlFor="DAY">DAY</Form.Label>
-            <Form.Control
-              type="number"
-              id="DAY"
-              onChange={(e) =>
-                setDataTime({ ...dataTime, day: e.target.value })
-              }
-            />
-          </div>
-          <div className="wrap time-item">
-            <Form.Label htmlFor="MONTH">MONTH</Form.Label>
-            <Form.Control
-              type="number"
-              id="MONTH"
-              onChange={(e) =>
-                setDataTime({ ...dataTime, month: e.target.value })
-              }
-            />
-          </div>
-          <div className="wrap time-item">
-            <Form.Label htmlFor="YEAR">YEAR</Form.Label>
-            <Form.Control
-              type="number"
-              id="YEAR"
-              onChange={(e) =>
-                setDataTime({ ...dataTime, year: e.target.value })
-              }
-            />
-          </div>
-        </div>
+        <FormDate dataTime={dataTime} setDataTime={setDataTime} />
       </div>
     </>
   );

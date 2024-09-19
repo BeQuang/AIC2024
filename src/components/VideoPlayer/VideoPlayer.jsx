@@ -19,7 +19,14 @@ function findVideoByTitle(title) {
   return VideoFull.find((video) => video.title === title);
 }
 
-function VideoPlayer({ show, setShow, videoID, timeImageCurrent, fpsCurrent }) {
+function VideoPlayer({
+  show,
+  setShow,
+  videoID,
+  timeImageCurrent,
+  fpsCurrent,
+  textOcr,
+}) {
   const videoRef = useRef(null); // Tạo ref cho video
   const [currentTime, setCurrentTime] = useState(timeImageCurrent); // State lưu trữ thời gian hiện tại
   const [currentFrame, setCurrentFrame] = useState(0); // State lưu trữ frame hiện tại
@@ -51,13 +58,12 @@ function VideoPlayer({ show, setShow, videoID, timeImageCurrent, fpsCurrent }) {
       videoRef.current.currentTime = newTime > 0 ? newTime : 0; // Đảm bảo không tua về trước 0 giây
     }
   };
-
   return (
     <>
       <Modal show={show} onHide={handleClose} size="lg" centered>
         <Modal.Header closeButton>
           <Modal.Title>
-            Video Player
+            Video: {videoID}
             {currentTime > 0 &&
               ` - ${formatTime(currentTime)} (Frame: ${currentFrame})`}
           </Modal.Title>
@@ -95,6 +101,7 @@ function VideoPlayer({ show, setShow, videoID, timeImageCurrent, fpsCurrent }) {
             <p>No video available</p>
           )}
         </Modal.Body>
+        <Modal.Body>{textOcr ? <div>Text: {textOcr}</div> : null}</Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
             Close

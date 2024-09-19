@@ -1,4 +1,4 @@
-import axios from "../../utils/axiosCustomize.jsx";
+import axios from "../utils/axiosCustomize.jsx";
 import { checkUrl } from "../components/Validate/Validate.jsx";
 
 const postSearchQuery = (data, day = false, month = false, year = false) => {

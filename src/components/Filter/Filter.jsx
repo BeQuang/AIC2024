@@ -3,6 +3,7 @@ import { useState } from "react";
 import "./Filter.scss";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
+import FormDate from "../FormatForm/FormDate";
 import { postSearchFilterObj } from "../../services/postService";
 
 // eslint-disable-next-line react/prop-types
@@ -86,38 +87,11 @@ function Filter({ setResponse, setIsSimilarImage }) {
           />
         </div>
 
-        <div className="form data-time">
-          <div className="wrap time-item">
-            <Form.Label htmlFor="DAY">DAY</Form.Label>
-            <Form.Control
-              type="number"
-              id="DAY"
-              onChange={(e) =>
-                setDataTime({ ...dataTime, day: e.target.value })
-              }
-            />
-          </div>
-          <div className="wrap time-item">
-            <Form.Label htmlFor="MONTH">MONTH</Form.Label>
-            <Form.Control
-              type="number"
-              id="MONTH"
-              onChange={(e) =>
-                setDataTime({ ...dataTime, month: e.target.value })
-              }
-            />
-          </div>
-          <div className="wrap time-item">
-            <Form.Label htmlFor="YEAR">YEAR</Form.Label>
-            <Form.Control
-              type="number"
-              id="YEAR"
-              onChange={(e) =>
-                setDataTime({ ...dataTime, year: e.target.value })
-              }
-            />
-          </div>
-        </div>
+        <FormDate
+          dataTime={dataTime}
+          setDataTime={setDataTime}
+          classCustom={"data-time"}
+        />
 
         <div className="obj-filter">
           <div className="wrap time-item">

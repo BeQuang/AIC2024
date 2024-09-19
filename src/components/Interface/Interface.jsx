@@ -1,9 +1,10 @@
 /* eslint-disable no-unused-vars */
 import { useState, useEffect } from "react";
-import ImageViewer from "../ImageViewer/ImageViewer";
-import "./Interface.scss";
+
 import VideoPlayer from "../VideoPlayer/VideoPlayer";
+import ImageItem from "../Image/ImageItem";
 import { postSimilarImage } from "../../services/postService";
+import "./Interface.scss";
 
 // eslint-disable-next-line react/prop-types
 function Interface({ response, isSimilarImage, setIsSimilarImage }) {
@@ -14,6 +15,7 @@ function Interface({ response, isSimilarImage, setIsSimilarImage }) {
   const [similarImage, setSimilarImage] = useState(null);
   const [loading, setLoading] = useState(false);
   const [fpsCurrent, setFpsCurrent] = useState(0);
+  const [textOcr, setTextOcr] = useState("");
 
   useEffect(() => {
     if (!isSimilarImage) {
@@ -21,11 +23,12 @@ function Interface({ response, isSimilarImage, setIsSimilarImage }) {
     }
   }, [isSimilarImage]);
 
-  const handleShowVideo = (video_id, frame_id, fps) => {
+  const handleShowVideo = (video_id, frame_id, fps, stringOcr) => {
     setVideoCurrent(video_id);
     setShow(true);
     setTimeImageCurrent(frame_id / fps);
     setFpsCurrent(fps);
+    setTextOcr(stringOcr);
   };
 
   const handleShowSimilarImage = async (image_path) => {
@@ -50,35 +53,15 @@ function Interface({ response, isSimilarImage, setIsSimilarImage }) {
     // Logic xử lý cho clip
     return data.map((item, i) => (
       <div key={i}>
-        <ImageViewer src={item.image_path} width="300px" height="160px" />
-        <div className="d-flex justify-content-evenly">
-          <div>
-            <div>Frame: {item.frame_id}</div>
-            <div>Folder: {item.video_folder}</div>
-            <div>Video: {item.video_id}</div>
-          </div>
-          <div className="d-flex flex-column justify-content-around pb-2">
-            <button
-              className="btn btn-primary"
-              onClick={() =>
-                handleShowVideo(
-                  item.video_id,
-                  item.frame_id,
-                  item.fps,
-                  item.image_path
-                )
-              }
-            >
-              Video
-            </button>
-            <button
-              className="btn btn-primary"
-              onClick={() => handleShowSimilarImage(item.image_path)}
-            >
-              Similar Image
-            </button>
-          </div>
-        </div>
+        <ImageItem
+          image_path={item.image_path}
+          frame_id={item.frame_id}
+          video_folder={item.video_folder}
+          video_id={item.video_id}
+          fps={item.fps}
+          handleShowVideo={handleShowVideo}
+          handleShowSimilarImage={handleShowSimilarImage}
+        />
       </div>
     ));
   };
@@ -92,35 +75,15 @@ function Interface({ response, isSimilarImage, setIsSimilarImage }) {
     ) {
       return similarImage.similar_images.map((item, i) => (
         <div key={i}>
-          <ImageViewer src={item.image_path} width="300px" height="160px" />
-          <div className="d-flex justify-content-evenly">
-            <div>
-              <div>Frame: {item.frame_id}</div>
-              <div>Folder: {item.video_folder}</div>
-              <div>Video: {item.video_id}</div>
-            </div>
-            <div className="d-flex flex-column justify-content-around pb-2">
-              <button
-                className="btn btn-primary"
-                onClick={() =>
-                  handleShowVideo(
-                    item.video_id,
-                    item.frame_id,
-                    item.fps,
-                    item.image_path
-                  )
-                }
-              >
-                Video
-              </button>
-              <button
-                className="btn btn-primary"
-                onClick={() => handleShowSimilarImage(item.image_path)}
-              >
-                Similar Image
-              </button>
-            </div>
-          </div>
+          <ImageItem
+            image_path={item.image_path}
+            frame_id={item.frame_id}
+            video_folder={item.video_folder}
+            video_id={item.video_id}
+            fps={item.fps}
+            handleShowVideo={handleShowVideo}
+            handleShowSimilarImage={handleShowSimilarImage}
+          />
         </div>
       ));
     }
@@ -132,35 +95,15 @@ function Interface({ response, isSimilarImage, setIsSimilarImage }) {
     // Logic xử lý cho object
     return data.map((item, i) => (
       <div key={i}>
-        <ImageViewer src={item.image_path} width="300px" height="160px" />
-        <div className="d-flex justify-content-evenly">
-          <div>
-            <div>Frame: {item.frame_id}</div>
-            <div>Folder: {item.video_folder}</div>
-            <div>Video: {item.video_id}</div>
-          </div>
-          <div className="d-flex flex-column justify-content-around pb-2">
-            <button
-              className="btn btn-primary"
-              onClick={() =>
-                handleShowVideo(
-                  item.video_id,
-                  item.frame_id,
-                  item.fps,
-                  item.image_path
-                )
-              }
-            >
-              Video
-            </button>
-            <button
-              className="btn btn-primary"
-              onClick={() => handleShowSimilarImage(item.image_path)}
-            >
-              Similar Image
-            </button>
-          </div>
-        </div>
+        <ImageItem
+          image_path={item.image_path}
+          frame_id={item.frame_id}
+          video_folder={item.video_folder}
+          video_id={item.video_id}
+          fps={item.fps}
+          handleShowVideo={handleShowVideo}
+          handleShowSimilarImage={handleShowSimilarImage}
+        />
       </div>
     ));
   };
@@ -168,19 +111,17 @@ function Interface({ response, isSimilarImage, setIsSimilarImage }) {
   const handleOcrLogic = (data) => {
     // Logic xử lý cho ocr
     return data.map((item, i) => (
-      <div className="info" key={i}>
-        <ImageViewer
-          src={item._source.image_path}
-          width="300px"
-          height="160px"
+      <div key={i}>
+        <ImageItem
+          image_path={item._source.image_path}
+          frame_id={item._source.frame}
+          video_folder={item._source.video_name}
+          video_id={item._source.video_name}
+          fps={item._source.fps}
+          textOcr={item._source.text}
+          handleShowVideo={handleShowVideo}
+          handleShowSimilarImage={handleShowSimilarImage}
         />
-        <div>
-          <div>Frame: {item._source.frame}</div>
-          <div>Video_ID: {item._source.video_name}</div>
-          <div>
-            Text: {item._source.text.map((character) => `${character} `)}
-          </div>
-        </div>
       </div>
     ));
   };
@@ -213,6 +154,7 @@ function Interface({ response, isSimilarImage, setIsSimilarImage }) {
         videoID={videoCurrent}
         timeImageCurrent={timeImageCurrent}
         fpsCurrent={fpsCurrent}
+        textOcr={textOcr}
       />
     </>
   );
