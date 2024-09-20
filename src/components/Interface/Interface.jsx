@@ -6,6 +6,8 @@ import ImageItem from "../Image/ImageItem";
 import { postSimilarImage } from "../../services/postService";
 import "./Interface.scss";
 
+const linkLocal = "D:/Workspace/AIC2024/AIC2024/public/assets/images";
+
 // eslint-disable-next-line react/prop-types
 function Interface({ response, isSimilarImage, setIsSimilarImage }) {
   const { asr, clip, image, object, ocr } = response || {};
@@ -54,7 +56,11 @@ function Interface({ response, isSimilarImage, setIsSimilarImage }) {
     return data.map((item, i) => (
       <div key={i}>
         <ImageItem
-          image_path={item.image_path}
+          image_path={`../../../public/assets/images/${item.video_folder}/${item.video_id}/${item.video_id}_${item.frame_id}.jpg`}
+          image_similar={
+            linkLocal +
+            `/${item.video_folder}/${item.video_id}/${item.video_id}_${item.frame_id}.jpg`
+          }
           frame_id={item.frame_id}
           video_folder={item.video_folder}
           video_id={item.video_id}
@@ -76,7 +82,11 @@ function Interface({ response, isSimilarImage, setIsSimilarImage }) {
       return similarImage.similar_images.map((item, i) => (
         <div key={i}>
           <ImageItem
-            image_path={item.image_path}
+            image_path={`../../../public/assets/images/${item.video_folder}/${item.video_id}/${item.video_id}_${item.frame_id}.jpg`}
+            image_similar={
+              linkLocal +
+              `/${item.video_folder}/${item.video_id}/${item.video_id}_${item.frame_id}.jpg`
+            }
             frame_id={item.frame_id}
             video_folder={item.video_folder}
             video_id={item.video_id}
@@ -96,7 +106,11 @@ function Interface({ response, isSimilarImage, setIsSimilarImage }) {
     return data.map((item, i) => (
       <div key={i}>
         <ImageItem
-          image_path={item.image_path}
+          image_path={`../../../public/assets/images/${item.video_folder}/${item.video_id}/${item.video_id}_${item.frame_id}.jpg`}
+          image_similar={
+            linkLocal +
+            `/${item.video_folder}/${item.video_id}/${item.video_id}_${item.frame_id}.jpg`
+          }
           frame_id={item.frame_id}
           video_folder={item.video_folder}
           video_id={item.video_id}
@@ -114,6 +128,7 @@ function Interface({ response, isSimilarImage, setIsSimilarImage }) {
       <div key={i}>
         <ImageItem
           image_path={item._source.image_path}
+          image_similar={item._source.image_path}
           frame_id={item._source.frame}
           video_folder={item._source.video_name}
           video_id={item._source.video_name}

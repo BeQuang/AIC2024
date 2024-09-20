@@ -3,6 +3,7 @@ import ImageViewer from "../Image/ImageViewer";
 
 function ImageItem({
   image_path,
+  image_similar,
   frame_id,
   video_folder,
   video_id,
@@ -34,7 +35,7 @@ function ImageItem({
           </button>
           <button
             className="btn btn-primary"
-            onClick={() => handleShowSimilarImage(image_path)}
+            onClick={() => handleShowSimilarImage(image_similar)}
           >
             Similar Image
           </button>
