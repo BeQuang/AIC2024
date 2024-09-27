@@ -18,6 +18,7 @@ function Interface({ response, isSimilarImage, setIsSimilarImage }) {
   const [loading, setLoading] = useState(false);
   const [fpsCurrent, setFpsCurrent] = useState(0);
   const [textOcr, setTextOcr] = useState("");
+  const [textAsr, setTextAsr] = useState("");
 
   useEffect(() => {
     if (!isSimilarImage) {
@@ -25,12 +26,13 @@ function Interface({ response, isSimilarImage, setIsSimilarImage }) {
     }
   }, [isSimilarImage]);
 
-  const handleShowVideo = (video_id, frame_id, fps, stringOcr) => {
+  const handleShowVideo = (video_id, frame_id, fps, stringOcr, textAsr) => {
     setVideoCurrent(video_id);
     setShow(true);
     setTimeImageCurrent(frame_id / fps);
     setFpsCurrent(fps);
     setTextOcr(stringOcr);
+    setTextAsr(textAsr);
   };
 
   const handleShowSimilarImage = async (image_path) => {
@@ -48,7 +50,24 @@ function Interface({ response, isSimilarImage, setIsSimilarImage }) {
 
   const handleAsrLogic = (data) => {
     // Logic xử lý cho asr
-    return <div>ASR Logic</div>;
+    return data.map((item, i) => (
+      <div key={i}>
+        <ImageItem
+          image_path={`../../../public/assets/images/${item._source.video_folder}/${item._source.video_id}/${item._source.video_id}_${item._source.start_frame}.jpg`}
+          image_similar={
+            linkLocal +
+            `/${item._source.video_folder}/${item._source.video_id}/${item._source.video_id}_${item._source.start_frame}.jpg`
+          }
+          frame_id={item._source.start_frame}
+          video_folder={item._source.video_folder}
+          video_id={item._source.video_id}
+          fps={item._source.fps}
+          textAsr={item._source.text}
+          handleShowVideo={handleShowVideo}
+          handleShowSimilarImage={handleShowSimilarImage}
+        />
+      </div>
+    ));
   };
 
   const handleClipLogic = (data) => {
@@ -127,10 +146,13 @@ function Interface({ response, isSimilarImage, setIsSimilarImage }) {
     return data.map((item, i) => (
       <div key={i}>
         <ImageItem
-          image_path={item._source.image_path}
-          image_similar={item._source.image_path}
+          image_path={`../../../public/assets/images/${item._source.video_folder}/${item._source.video_name}/${item._source.video_name}_${item._source.frame}.jpg`}
+          image_similar={
+            linkLocal +
+            `/${item._source.video_folder}/${item._source.video_name}/${item._source.video_name}_${item._source.frame}.jpg`
+          }
           frame_id={item._source.frame}
-          video_folder={item._source.video_name}
+          video_folder={item._source.video_folder}
           video_id={item._source.video_name}
           fps={item._source.fps}
           textOcr={item._source.text}
@@ -170,6 +192,7 @@ function Interface({ response, isSimilarImage, setIsSimilarImage }) {
         timeImageCurrent={timeImageCurrent}
         fpsCurrent={fpsCurrent}
         textOcr={textOcr}
+        textAsr={textAsr}
       />
     </>
   );

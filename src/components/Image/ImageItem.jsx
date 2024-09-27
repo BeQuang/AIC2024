@@ -11,6 +11,7 @@ function ImageItem({
   textOcr,
   handleShowVideo,
   handleShowSimilarImage,
+  textAsr,
 }) {
   const arrayToString = (text) => {
     if (text) return text.join(" ");
@@ -29,7 +30,9 @@ function ImageItem({
         <div className="d-flex flex-column justify-content-around pb-2">
           <button
             className="btn btn-primary"
-            onClick={() => handleShowVideo(video_id, frame_id, fps, stringOcr)}
+            onClick={() =>
+              handleShowVideo(video_id, frame_id, fps, stringOcr, textAsr)
+            }
           >
             Video
           </button>

@@ -26,6 +26,7 @@ function VideoPlayer({
   timeImageCurrent,
   fpsCurrent,
   textOcr,
+  textAsr,
 }) {
   const videoRef = useRef(null); // Tạo ref cho video
   const [currentTime, setCurrentTime] = useState(timeImageCurrent); // State lưu trữ thời gian hiện tại
@@ -46,10 +47,11 @@ function VideoPlayer({
 
   // Sử dụng useEffect để thiết lập thời gian bắt đầu
   useEffect(() => {
-    if (videoRef.current) {
+    if (videoRef.current && show) {
+      // Thêm điều kiện kiểm tra show
       videoRef.current.currentTime = timeImageCurrent;
     }
-  }, [videoID, timeImageCurrent]); // Chạy lại khi videoID hoặc timeImageCurrent thay đổi
+  }, [videoID, timeImageCurrent, show]); // Chạy lại khi videoID, timeImageCurrent hoặc show thay đổi
 
   // Hàm tua nhanh/chậm
   const handleSeek = (seconds) => {
@@ -58,6 +60,9 @@ function VideoPlayer({
       videoRef.current.currentTime = newTime > 0 ? newTime : 0; // Đảm bảo không tua về trước 0 giây
     }
   };
+
+  console.log(VideoCurrent);
+
   return (
     <>
       <Modal show={show} onHide={handleClose} size="lg" centered>
@@ -101,7 +106,9 @@ function VideoPlayer({
             <p>No video available</p>
           )}
         </Modal.Body>
-        <Modal.Body>{textOcr ? <div>Text: {textOcr}</div> : null}</Modal.Body>
+        <Modal.Body>
+          {textOcr ? <div>Text: {textOcr}</div> : <div>Text: {textAsr}</div>}
+        </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
             Close

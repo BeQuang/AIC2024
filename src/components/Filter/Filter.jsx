@@ -20,6 +20,7 @@ function Filter({ setResponse, setIsSimilarImage }) {
   ];
 
   const [dataFilter, setDataFilter] = useState({
+    description: "",
     object: "",
     compare: null,
     number: null,
@@ -32,7 +33,10 @@ function Filter({ setResponse, setIsSimilarImage }) {
   const [objectAsFilter, setObjectAsFilter] = useState(true);
 
   const handleObj = async () => {
-    let json = JSON.stringify({ object: dataFilter.object });
+    let json = JSON.stringify({
+      clip: dataFilter.description,
+      object: dataFilter.object,
+    });
 
     const response = await postSearchFilterObj(
       json,
@@ -55,6 +59,14 @@ function Filter({ setResponse, setIsSimilarImage }) {
       <div className="filter">
         <h2>Filter</h2>
         <div className="wrap">
+          <Form.Label htmlFor="Description">Description</Form.Label>
+          <Form.Control
+            type="text"
+            id="Description"
+            onChange={(e) =>
+              setDataFilter({ ...dataFilter, description: e.target.value })
+            }
+          />
           <Form.Select
             onChange={(e) =>
               setDataFilter({ ...dataFilter, object: e.target.value })
