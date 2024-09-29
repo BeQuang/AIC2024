@@ -89,16 +89,16 @@ function VideoPlayer({
               <div style={{ marginTop: "10px", textAlign: "center" }}>
                 <Button
                   variant="primary"
-                  onClick={() => handleSeek(-1)} // Tua lại 1 giây
+                  onClick={() => handleSeek(-2)} // Tua lại 2 giây
                   style={{ marginRight: "10px" }}
                 >
-                  Tua lại 1s
+                  Tua lại 2s
                 </Button>
                 <Button
                   variant="primary"
-                  onClick={() => handleSeek(1)} // Tua nhanh 1 giây
+                  onClick={() => handleSeek(2)} // Tua nhanh 2 giây
                 >
-                  Tua nhanh 1s
+                  Tua nhanh 2s
                 </Button>
               </div>
             </>
