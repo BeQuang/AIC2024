@@ -31,6 +31,7 @@ function Filter({ setResponse, setIsSimilarImage }) {
     year: null,
   });
   const [objectAsFilter, setObjectAsFilter] = useState(true);
+  const [responseObject, setResponseObject] = useState({ object: [] });
 
   const handleObj = async () => {
     let json = JSON.stringify({
@@ -38,7 +39,7 @@ function Filter({ setResponse, setIsSimilarImage }) {
       object: dataFilter.object,
     });
 
-    const response = await postSearchFilterObj(
+    let response = await postSearchFilterObj(
       json,
       dataTime.day,
       dataTime.month,
@@ -48,10 +49,12 @@ function Filter({ setResponse, setIsSimilarImage }) {
       dataFilter.number,
       objectAsFilter
     );
-
-    console.log("Result >>>", response);
-    setResponse(response);
+    response.clip = [];
+    console.log("response >>>", response);
+    setResponseObject({ ...responseObject, object: response });
+    setResponse(responseObject);
     setIsSimilarImage(false);
+    console.log("Result >>>", responseObject);
   };
 
   return (

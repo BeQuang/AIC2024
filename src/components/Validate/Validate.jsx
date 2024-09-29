@@ -76,8 +76,10 @@ function checkUrl(
     params.push(`value=${value}`);
   }
 
-  if (object_as_filter === "true" || object_as_filter === "false") {
-    params.push(`object_as_filter=${object_as_filter}`);
+  if (object_as_filter) {
+    params.push(`object_as_filter=true`);
+  } else if (!object_as_filter) {
+    params.push(`object_as_filter=false`);
   }
 
   if (params.length > 0) {
