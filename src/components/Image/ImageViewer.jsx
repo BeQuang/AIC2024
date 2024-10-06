@@ -12,7 +12,7 @@ function ImageViewer({
 }) {
   return (
     <div className={`image-viewer ${className}`}>
-      <img src={src} alt={alt} style={{ width, height }} />
+      <img src={src} alt={alt} style={{ width, height }} loading="lazy" />
     </div>
   );
 }

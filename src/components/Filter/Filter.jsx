@@ -3,7 +3,7 @@ import { useState } from "react";
 import "./Filter.scss";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
-import FormDate from "../FormatForm/FormDate";
+// import FormDate from "../FormatForm/FormDate";
 import { postSearchFilterObj } from "../../services/postService";
 
 // eslint-disable-next-line react/prop-types
@@ -25,6 +25,7 @@ function Filter({ setResponse, setIsSimilarImage }) {
     compare: null,
     number: null,
   });
+  // eslint-disable-next-line no-unused-vars
   const [dataTime, setDataTime] = useState({
     day: null,
     month: null,
@@ -102,11 +103,11 @@ function Filter({ setResponse, setIsSimilarImage }) {
           />
         </div>
 
-        <FormDate
+        {/* <FormDate
           dataTime={dataTime}
           setDataTime={setDataTime}
           classCustom={"data-time"}
-        />
+        /> */}
 
         <div className="obj-filter">
           <div className="wrap time-item">

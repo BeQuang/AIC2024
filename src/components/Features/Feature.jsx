@@ -4,13 +4,14 @@ import "./Feature.scss";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { postSearchQuery } from "../../services/postService";
-import FormDate from "../FormatForm/FormDate";
+// import FormDate from "../FormatForm/FormDate";
 
 // eslint-disable-next-line react/prop-types
 function Features({ setResponse, setIsSimilarImage }) {
   const [clip, setClip] = useState("");
   const [ocr, setOcr] = useState("");
   const [asr, setAsr] = useState("");
+  // eslint-disable-next-line no-unused-vars
   const [dataTime, setDataTime] = useState({
     day: null,
     month: null,
@@ -130,7 +131,7 @@ function Features({ setResponse, setIsSimilarImage }) {
           </Button>
         </div>
 
-        <FormDate dataTime={dataTime} setDataTime={setDataTime} />
+        {/* <FormDate dataTime={dataTime} setDataTime={setDataTime} /> */}
       </div>
     </>
   );

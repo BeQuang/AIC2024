@@ -53,16 +53,16 @@ function Interface({ response, isSimilarImage, setIsSimilarImage }) {
     return data.map((item, i) => (
       <div key={i}>
         <ImageItem
-          image_path={`../../../public/assets/images/${item._source.video_folder}/${item._source.video_id}/${item._source.video_id}_${item._source.start_frame}.jpg`}
+          image_path={`../../../public/assets/images/${item.video_folder}/${item.video_id}/${item.video_id}_${item.start_frame}.jpg`}
           image_similar={
             linkLocal +
-            `/${item._source.video_folder}/${item._source.video_id}/${item._source.video_id}_${item._source.start_frame}.jpg`
+            `/${item.video_folder}/${item.video_id}/${item.video_id}_${item.start_frame}.jpg`
           }
-          frame_id={item._source.start_frame}
-          video_folder={item._source.video_folder}
-          video_id={item._source.video_id}
-          fps={item._source.fps}
-          textAsr={item._source.text}
+          frame_id={item.start_frame}
+          video_folder={item.video_folder}
+          video_id={item.video_id}
+          fps={item.fps}
+          textAsr={item.text}
           handleShowVideo={handleShowVideo}
           handleShowSimilarImage={handleShowSimilarImage}
         />
